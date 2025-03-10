@@ -2,7 +2,4 @@
 
 ## Automatic header to source
 
-<video width="320" height="240" controls>
-  <source src="header_to_source.mp4" type="video/mp4">
-  Seu navegador não suporta o elemento de vídeo.
-</video>
+[See demonstration](https://www.youtube.com/watch?v=g1FbbVSJ4AI)
