@@ -1,7 +1,7 @@
 {
+    "font_face": "Fira Code",
     "rulers": [80, 100],
     "translate_tabs_to_spaces": true,
-    "highlight_line": true,
     "caret_style": "smooth",
     "draw_white_space": "all",
     "trim_trailing_white_space_on_save": "not_on_caret",
@@ -14,5 +14,8 @@
     "ignored_packages":
     [
         "Vintage",
-    ]
+    ],
+    "index_files": true,
+    "theme": "Adaptive.sublime-theme",
+    "color_scheme": "Packages/Colorsublime - Themes/Earthsong_Dark.tmTheme",
 }
