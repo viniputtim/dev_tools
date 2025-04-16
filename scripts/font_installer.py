@@ -1,13 +1,13 @@
 import os
-import zipfile
-import shutil
 import re
+import shutil
+import zipfile
 
 
 class FontInstaller:
     def __init__(self):
-        self.downloads_path = '/home/viniciuspm/Downloads'
-        self.extract_path = os.path.join(self.downloads_path, 'fonts')
+        self.zip_path = '/home/viniciuspm/Downloads'
+        self.extract_path = os.path.join(self.zip_path, 'fonts')
         self.project_path = '/home/viniciuspm/Desenvolvimento/its_about_cards'
         self.fonts_path = os.path.join(self.project_path, 'resources/fonts')
         self.licenses_path = os.path.join(self.project_path, 'docs/LICENSES')
@@ -38,7 +38,7 @@ class FontInstaller:
             insert_index -= 1
 
         for entry in reversed(entries):
-            entry_line = entry + ',\n'
+            entry_line = f'{entry} \n'
 
             if entry_line not in lines:
                 lines.insert(insert_index, entry_line)
@@ -57,7 +57,7 @@ class FontInstaller:
                     key = self.to_natural_case(key)
                     path = os.path.join(root, file)
 
-                    line = f'    {{"{key}", "{path}"}}'
+                    line = f'    {{"{key}", "{path}"}},'
                     content.append(line)
 
         self.update_fonts_list(content)
@@ -71,12 +71,12 @@ class FontInstaller:
         for file in os.listdir(folder):
             if file == 'OFL.txt' or file == 'LICENSE.txt':
                 file_path = os.path.join(folder, file)
-                ofl_dest_folder = os.path.join(self.licenses_path, snake_name)
-                ofl_dest_file = os.path.join(ofl_dest_folder, file)
+                license_dest_folder = os.path.join(self.licenses_path, snake_name)
+                license_dest_file = os.path.join(license_dest_folder, file)
 
-                os.makedirs(ofl_dest_folder, exist_ok = True)
+                os.makedirs(license_dest_folder, exist_ok = True)
 
-                shutil.move(file_path, ofl_dest_file)
+                shutil.move(file_path, license_dest_file)
 
         if os.path.exists(dest_folder):
             shutil.rmtree(dest_folder)
@@ -84,7 +84,7 @@ class FontInstaller:
         shutil.move(folder, dest_folder)
 
 
-    def walk_fonts(self):
+    def process_fonts(self):
         for folder in os.listdir(self.extract_path):
             folder_path = os.path.join(self.extract_path, folder)
 
@@ -93,9 +93,9 @@ class FontInstaller:
 
 
     def extract_fonts(self):
-        for file in os.listdir(self.downloads_path):
+        for file in os.listdir(self.zip_path):
             if file.endswith('.zip'):
-                zip_path = os.path.join(self.downloads_path, file)
+                zip_path = os.path.join(self.zip_path, file)
 
                 if ',' in zip_path:
                     extract_folder = self.extract_path
@@ -108,7 +108,7 @@ class FontInstaller:
 
     def run(self):
         self.extract_fonts()
-        self.walk_fonts()
+        self.process_fonts()
         self.list_fonts()
         print('Success!\n')
 
@@ -135,8 +135,8 @@ class FontInstaller:
             line for line in lines if not pattern.search(line)
         ]
 
-        with open(self.fonts_list_path, 'w') as file:
-            file.writelines(new_lines)
+        with open(self.fonts_list_path, 'w') as f:
+            f.writelines(new_lines)
 
 
 if __name__ == '__main__':
