@@ -156,9 +156,9 @@ class FontInstaller:
             installed.append(font)
             print(f'{i}. {font}')
 
-        action = input('Type the number of the font to be removed: ')
+        action = int(input('Type the number of the font to be removed: '))
 
-        if (isinstance(action, int) and action >= 0 and action <= len(installed)):
+        if (action >= 0 and action <= len(installed)):
             self.uninstall_font(installed[int(action) - 1])
         else:
             print('Invalid input!')
