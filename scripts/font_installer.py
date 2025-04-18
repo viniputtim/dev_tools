@@ -56,6 +56,7 @@ class FontInstaller:
                     key = os.path.splitext(file)[0]
                     key = self.to_natural_case(key)
                     path = os.path.join(root, file)
+                    path = path.replace(self.project_path, '..')
 
                     line = f'    {{"{key}", "{path}"}},'
                     content.append(line)
@@ -106,11 +107,14 @@ class FontInstaller:
                     zip_file.extractall(extract_folder)
 
 
-    def run(self):
+    def install_font(self):
         self.extract_fonts()
-        self.process_fonts()
-        self.list_fonts()
-        print('Success!\n')
+
+        if os.path.exists(self.extract_path):
+            self.process_fonts()
+            self.list_fonts()
+
+        print('INSTALLATION FINISHED!\n\n')
 
 
     def uninstall_font(self, font_folder_name):
@@ -124,6 +128,7 @@ class FontInstaller:
             shutil.rmtree(license_path)
 
         self.remove_font_from_cpp(font_folder_name)
+        print('FONT REMOVED!\n\n')
 
 
     def remove_font_from_cpp(self, font_folder_name):
@@ -137,6 +142,49 @@ class FontInstaller:
 
         with open(self.fonts_list_path, 'w') as f:
             f.writelines(new_lines)
+
+    def install_fonts(self):
+        self.install_font()
+        self.run()
+
+
+    def uninstall_fonts(self):
+        installed = []
+        i = 0
+        for font in os.listdir(self.fonts_path):
+            i += 1
+            installed.append(font)
+            print(f'{i}. {font}')
+
+        action = input('Type the number of the font to be removed: ')
+
+        if (isinstance(action, int) and action >= 0 and action <= len(installed)):
+            self.uninstall_font(installed[int(action) - 1])
+        else:
+            print('Invalid input!')
+        action = input('uninnstall another font?')
+
+        if action.lower() == 'y':
+            self.uninstall_fonts()
+        else:
+            self.run()
+
+
+    def run(self):
+        print('-' * 50)
+        print('FONTS INSTALLER')
+        print('-' * 50)
+
+        while (True):
+            action = input('[I]nstall fonts\n[U]ninstall font\n[E]xit: ')
+
+            if action.lower() == 'u':
+                self.uninstall_fonts()
+            elif action.lower() == 'i':
+                self.install_fonts()
+            else:
+                break
+
 
 
 if __name__ == '__main__':
