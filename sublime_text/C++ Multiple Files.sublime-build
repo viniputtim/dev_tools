@@ -1,4 +1,4 @@
 {
     "selector": "source.c, source.cpp, source.h, source.hpp",
-    "shell_cmd": "python3 '/home/viniciuspm/.config/sublime-text/Packages/User/cpp_builder_selector.py' '$file' '$file_path' ''"
+    "shell_cmd": "python3 '/home/viniciuspm/.config/sublime-text/Packages/User/cpp_builder_selector.py' '$file_path' ''"
 }
